@@ -6,10 +6,15 @@
     <description>Recent content on Kemble Software</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 06 Sep 2021 01:51:48 +1000</lastBuildDate>
-    
-	<atom:link href="https://kemble.net/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Thu, 04 Nov 2021 01:09:48 +1000</lastBuildDate><atom:link href="https://kemble.net/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Lavish Polygon Editor</title>
+      <link>https://kemble.net/blog/lavishpolygoneditor/</link>
+      <pubDate>Thu, 04 Nov 2021 01:09:48 +1000</pubDate>
+      
+      <guid>https://kemble.net/blog/lavishpolygoneditor/</guid>
+      <description>&lt;p&gt;Lavish Polygon Editor is a set of tools for Polygon Collider 2D that override the default tools to bring you much more flexible and advanced ways to edit your collider polygons.​&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Tool For U</title>
