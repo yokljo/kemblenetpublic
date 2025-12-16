@@ -162,8 +162,8 @@ Spoilers: I didn&rsquo;t get very far.
 	<source src="/provoke/splitter.webm" type="video/webm">
 	If you're seeing this sentence, there's a bunch of videos on this page and it will look kinda boring without them.
 </video>
-<p>Note how the mouse cursor doesn&rsquo;t stay as ↔ when it&rsquo;s not exactly on the splitter. The [built-in QML splitter](<a href="https://doc.qt.io/QT-6/qml-qtquick-controls">https://doc.qt.io/QT-6/qml-qtquick-controls</a> style=&ldquo;aspect-ratio: 1280/959;&quot;-splitview.html) had that problem 15 years ago, and it&rsquo;s still like that now :(</p>
-<p>If I could access <code>QGuiApplication::setOverrideCursor</code> I could make my splitter not have that problem, but as it stands, with my simple qmetaobject-rs project and 0% C++, I just can&rsquo;t. Oh well, I&rsquo;ll look into it later.</p>
+<p>Note how the mouse cursor doesn&rsquo;t stay as ↔ when it&rsquo;s not exactly on the splitter. The <a href="https://doc.qt.io/QT-6/qml-qtquick-controls-splitview.html">built-in QML splitter</a> had that problem 15 years ago, and it&rsquo;s still like that now :(</p>
+<p>If I could access <a href="https://doc.qt.io/qt-6/qguiapplication.html#setOverrideCursor"><code>QGuiApplication::setOverrideCursor</code></a> I could make my splitter not have that problem, but as it stands, with my simple qmetaobject-rs project and 0% C++, I just can&rsquo;t. Oh well, I&rsquo;ll look into it later.</p>
 <p>It&rsquo;s a little bit buggy and the mouse doesn&rsquo;t always line up with the splitter.</p>
 <h2 id="3am-same-day">3am, same day</h2>
 <p>I got a bit carried away. My commit messages since the last section were: <code>Various UI work</code>, <code>More UI stuff</code>, <code>Sidebar collapsing is much more advanced</code>, and <code>More UI work</code>. Highly descriptive. I basically re-learned a tonne of stuff about QML, including how to make nice animations, and was honestly quite pleased with myself with how close I got some of the interactions to Telegram. There will be a lot more of that coming up.</p>
