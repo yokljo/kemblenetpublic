@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Joshua Worth" />
     <meta name="description" content="" />
-    <link rel="stylesheet" href="https://kemble.net/css/main.min.0dd2a4f32211506c644eeeb9713df77c69432e8a5f0f696c2a04891bd15b8e54.css" />
+    <link rel="stylesheet" href="https://kemble.net/css/main.min.49531f9bcb1c25da2398f3be6b39c7f1db83275328e36d900c4d9d991defa7ae.css" />
 
     
     <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;."/>
@@ -195,6 +195,31 @@ Spoilers: I didn&rsquo;t get very far.
 	<source src="/provoke/messageselection.webm" type="video/webm">
 </video>
 <p>Message selection, what a rush!</p>
+<h3 id="fancy-animations">Fancy Animations</h3>
+<p>The secret to pulling off a fancy synchronised animation without having to set up some complicated animation framework, is to just use a <a href="https://doc.qt.io/qt-6/qml-qtquick-numberanimation.html"><code>NumberAnimation</code></a> and some maths.</p>
+<p>I might have a bit of state like <code>property bool expand</code>, and I want stuff to animate whenever <code>expand</code> changes.</p>
+<p>Just follow along with my simple step-by-step instructions!</p>
+<ol>
+<li>
+<p>Make another <code>real</code> property with &ldquo;ness&rdquo; tacked on the end, and bind it to the state property</p>
+<p><code>property real expandness: expand ? 1 : 0</code></p>
+</li>
+<li>
+<p>Make the <code>real</code> number animate whenever it changes:</p>
+<p><code>Behavior on expandness { NumberAnimation { duration: 500; easing.type: Easing.InOutQuad } }</code></p>
+</li>
+<li>
+<p>Bind stuff to it:</p>
+<ul>
+<li><code>opacity: 1 - expandness</code>,</li>
+<li><code>height: lerp(0, topSectionContent.height, expandness)</code></li>
+<li><code>radius: lerp(barHeight / 2, 5, expandness)</code></li>
+<li>etc. etc.</li>
+</ul>
+</li>
+</ol>
+<p>Once I figured out those steps, I started using the technique everywhere!</p>
+<h3 id="minimise-to-the-system-tray">Minimise to the System Tray</h3>
 <video width="100%" controls style="aspect-ratio: 2240/1400;">
 	<source src="/provoke/systemtray.webm" type="video/webm">
 </video>
@@ -214,50 +239,50 @@ Spoilers: I didn&rsquo;t get very far.
 <p>So the trick was to get the number on the icon, like I mentioned before. The <code>icon.source</code> property of <code>SystemTrayIcon</code> takes a URL to an icon. That&rsquo;s awkward. What am I to do? Create some kind of virtual file system that I can upload new icon pictures to that have the number overlay? Create 100 icons for all the possible counts? Is there some kind of built-in way to get a URL to a custom picture in Qt? That would be pretty fancy.</p>
 <p>Turns out Qt is pretty fancy.</p>
 <p>It&rsquo;s actually pretty sweet. Basically what you do is create a normal UI with QML:</p>
-<pre tabindex="0"><code>Image {
-	id: trayImageItem
-	source: &#34;qrc:/icons/icon_margin.svg&#34;
-	width: 64
-	height: 64
-
-	Rectangle {
-		anchors.right: parent.right
-		anchors.rightMargin: 1
-		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 1
-		width: messageCountText.implicitWidth + 6
-		height: messageCountText.implicitHeight
-		color: &#34;#f23c34&#34;
-		radius: 16
-		visible: root.messageCount &gt; 0
-
-		Text {
-			id: messageCountText
-			x: 3
-			text: root.messageCount &gt; 99 ? &#34;＋&#34; : root.messageCount
-			color: &#34;white&#34;
-			opacity: 0.9
-			font.pixelSize: 30
-			font.weight: Font.Bold
-		}
-	}
-}
-</code></pre><p>Then create a <code>ShaderEffectSource</code>, which captures a new image of the <code>trayImageItem</code> whenever it changes (even if it is invisible, which is very important in this situation):</p>
-<pre tabindex="0"><code>ShaderEffectSource {
-	id: trayImageSource
-	anchors.fill: trayImageItem
-	sourceItem: trayImageItem
-	visible: false
-	live: true
-	hideSource: true
-}
-</code></pre><p>Then whenever the message count changes, I call <code>updateTrayIcon()</code>:</p>
-<pre tabindex="0"><code>function updateTrayIcon() {
-	trayImageSource.grabToImage(result =&gt; {
-		trayIcon.icon.source = result.url
-	})
-}
-</code></pre><p><code>result.url</code> looks something like <code>itemgrabber:#1</code>, so basically Qt implements exactly that crazy idea I described above. Neat.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-qml" data-lang="qml"><span style="display:flex;"><span><span style="color:#a6e22e">Image</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">id: trayImageItem</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">source:</span> <span style="color:#e6db74">&#34;qrc:/icons/icon_margin.svg&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">width:</span> <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">height:</span> <span style="color:#ae81ff">64</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">Rectangle</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">anchors.right:</span> <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">right</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">anchors.rightMargin:</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">anchors.bottom:</span> <span style="color:#a6e22e">parent</span>.<span style="color:#a6e22e">bottom</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">anchors.bottomMargin:</span> <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">width:</span> <span style="color:#a6e22e">messageCountText</span>.<span style="color:#a6e22e">implicitWidth</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">6</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">height:</span> <span style="color:#a6e22e">messageCountText</span>.<span style="color:#a6e22e">implicitHeight</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">color:</span> <span style="color:#e6db74">&#34;#f23c34&#34;</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">radius:</span> <span style="color:#ae81ff">16</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">visible:</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">messageCount</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">Text</span> {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">id: messageCountText</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">x:</span> <span style="color:#ae81ff">3</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">text:</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">messageCount</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">99</span> <span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;＋&#34;</span> <span style="color:#f92672">:</span> <span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">messageCount</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">color:</span> <span style="color:#e6db74">&#34;white&#34;</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">opacity:</span> <span style="color:#ae81ff">0.9</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">font.pixelSize:</span> <span style="color:#ae81ff">30</span>
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">font.weight:</span> <span style="color:#a6e22e">Font</span>.<span style="color:#a6e22e">Bold</span>
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then create a <code>ShaderEffectSource</code>, which captures a new image of the <code>trayImageItem</code> whenever it changes (even if it is invisible, which is very important in this situation):</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-qml" data-lang="qml"><span style="display:flex;"><span><span style="color:#a6e22e">ShaderEffectSource</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">id: trayImageSource</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">anchors.fill:</span> <span style="color:#a6e22e">trayImageItem</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">sourceItem:</span> <span style="color:#a6e22e">trayImageItem</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">visible:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">live:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">hideSource:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Then whenever the message count changes, I call <code>updateTrayIcon()</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">function</span> <span style="color:#a6e22e">updateTrayIcon</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">trayImageSource</span>.<span style="color:#a6e22e">grabToImage</span>(<span style="color:#a6e22e">result</span> =&gt; {
+</span></span><span style="display:flex;"><span>		<span style="color:#a6e22e">trayIcon</span>.<span style="color:#a6e22e">icon</span>.<span style="color:#a6e22e">source</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">url</span>
+</span></span><span style="display:flex;"><span>	})
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>result.url</code> looks something like <code>itemgrabber:#1</code>, so basically Qt implements exactly that crazy idea I described above. Neat.</p>
 <p>The system tray task convinced me to finally make an icon:</p>
 <p><img src="/ProvokeIcon.png" alt="Provoke Icon"></p>
 <p>I didn&rsquo;t want a speech bubble, it&rsquo;s already been done, and I wouldn&rsquo;t want this app to be mistaken for any app that&rsquo;s already on the market. I was thinking of a horn or something, but it needed to kinda fill the space so I went for a megaphone look. It also kinda looks like an axe, which goes well with the name Provoke I guess.</p>
@@ -269,66 +294,66 @@ Spoilers: I didn&rsquo;t get very far.
 <li>Make a folder called &ldquo;cpp&rdquo;</li>
 <li>Put a CMakeLists.txt file in it, and a cpp/hpp pair</li>
 </ul>
-<pre tabindex="0"><code>cmake_minimum_required(VERSION 3.16)
-
-project(provokecpp LANGUAGES CXX)
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(CMAKE_AUTOMOC ON)
-
-find_package(Qt6 COMPONENTS Core Gui Qml REQUIRED)
-
-qt_add_library(provokecpp STATIC
-	provokecpp.cpp
-	provokecpp.hpp
-)
-
-target_link_libraries(provokecpp
-	Qt6::Core
-	Qt6::Gui
-	Qt6::Qml
-)
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cmake" data-lang="cmake"><span style="display:flex;"><span>cmake_minimum_required(<span style="color:#e6db74">VERSION</span> <span style="color:#e6db74">3.16</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>project(<span style="color:#e6db74">provokecpp</span> <span style="color:#e6db74">LANGUAGES</span> <span style="color:#e6db74">CXX</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD</span> <span style="color:#e6db74">17</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_CXX_STANDARD_REQUIRED</span> <span style="color:#e6db74">ON</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>set(<span style="color:#e6db74">CMAKE_AUTOMOC</span> <span style="color:#e6db74">ON</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>find_package(<span style="color:#e6db74">Qt6</span> <span style="color:#e6db74">COMPONENTS</span> <span style="color:#e6db74">Core</span> <span style="color:#e6db74">Gui</span> <span style="color:#e6db74">Qml</span> <span style="color:#e6db74">REQUIRED</span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>qt_add_library(<span style="color:#e6db74">provokecpp</span> <span style="color:#e6db74">STATIC</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">provokecpp.cpp</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">provokecpp.hpp</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">
+</span></span></span><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010"></span>target_link_libraries(<span style="color:#e6db74">provokecpp</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">Qt6::Core</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">Qt6::Gui</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">Qt6::Qml</span>
+</span></span><span style="display:flex;"><span>)<span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><ul>
 <li>Write some QObjects the old-fashioned way, then <code>extern &quot;C&quot;</code> a function which registers stuff with QML.</li>
 </ul>
-<pre tabindex="0"><code>QObject* provoke_tools_singleton_provider(QQmlEngine* engine, QJSEngine* jsEngine) {
-	return new ProvokeTools();
-}
-
-extern &#34;C&#34; void register_provoke_qml_types() {
-	qmlRegisterSingletonType&lt;ProvokeTools&gt;(&#34;provoke&#34;, 1, 0, &#34;ProvokeTools&#34;, provoke_tools_singleton_provider);
-	// This sounds like it would solve that problem that I had with my Splitter!
-	qmlRegisterType&lt;OverrideMouseCursor&gt;(&#34;provoke&#34;, 1, 0, &#34;OverrideMouseCursor&#34;);
-}
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>QObject<span style="color:#f92672">*</span> <span style="color:#a6e22e">provoke_tools_singleton_provider</span>(QQmlEngine<span style="color:#f92672">*</span> engine, QJSEngine<span style="color:#f92672">*</span> jsEngine) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ProvokeTools();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> <span style="color:#66d9ef">void</span> register_provoke_qml_types() {
+</span></span><span style="display:flex;"><span>	qmlRegisterSingletonType<span style="color:#f92672">&lt;</span>ProvokeTools<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;provoke&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;ProvokeTools&#34;</span>, provoke_tools_singleton_provider);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// This sounds like it would solve that problem that I had with my Splitter!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	qmlRegisterType<span style="color:#f92672">&lt;</span>OverrideMouseCursor<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;provoke&#34;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#e6db74">&#34;OverrideMouseCursor&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
 <li>&ldquo;You keep talking about Rust, but mostly you&rsquo;ve just written QML and C++, I feel ripped off&rdquo; - Fair enough, but I intend to use Rust for the &ldquo;model&rdquo; layer and any custom UI elements and logic that call for native code. That stuff just hasn&rsquo;t really come up yet.</li>
 <li>Add a <code>build.rs</code> file and use the <code>cmake</code> crate to build the &ldquo;cpp&rdquo; folder. I find this part quite cool, as you don&rsquo;t even see it running the C++ compiler when you do <code>cargo run</code> and all the build stuff happens in the <code>target</code> folder with everything else. It even caches the result and only re-runs the C++ build if a dependency changes:</li>
 </ul>
-<pre tabindex="0"><code>fn main() {
-	let dest = cmake::Config::new(&#34;cpp&#34;)
-		.build_target(&#34;all&#34;)
-		.build();
-
-	println!(&#34;cargo::rerun-if-changed=cpp/CMakeLists.txt&#34;);
-	println!(&#34;cargo::rerun-if-changed=cpp/provokecpp.cpp&#34;);
-	println!(&#34;cargo::rerun-if-changed=cpp/provokecpp.hpp&#34;);
-	
-	println!(&#34;cargo::rustc-link-search=native={}/build&#34;, dest.display());
-	println!(&#34;cargo::rustc-link-lib=static=provokecpp&#34;);
-}
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> dest <span style="color:#f92672">=</span> cmake::Config::new(<span style="color:#e6db74">&#34;cpp&#34;</span>)
+</span></span><span style="display:flex;"><span>		.build_target(<span style="color:#e6db74">&#34;all&#34;</span>)
+</span></span><span style="display:flex;"><span>		.build();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;cargo::rerun-if-changed=cpp/CMakeLists.txt&#34;</span>);
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;cargo::rerun-if-changed=cpp/provokecpp.cpp&#34;</span>);
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;cargo::rerun-if-changed=cpp/provokecpp.hpp&#34;</span>);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;cargo::rustc-link-search=native=</span><span style="color:#e6db74">{}</span><span style="color:#e6db74">/build&#34;</span>, dest.display());
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;cargo::rustc-link-lib=static=provokecpp&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><ul>
 <li>From Rust, import the symbol and call it on startup:</li>
 </ul>
-<pre tabindex="0"><code>unsafe extern &#34;C&#34; {
-	unsafe fn register_provoke_qml_types();
-}
-
-...
-
-register_provoke_qml_types();
-</code></pre><p>This isn&rsquo;t exactly innovative, but there were lots of ways to go about solving this problem. It&rsquo;s a nice setup, and I can forget it&rsquo;s even there. It builds pretty much instantly (for now). I can even export more <code>extern &quot;C&quot;</code> functions as needed.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">extern</span> <span style="color:#e6db74">&#34;C&#34;</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">unsafe</span> <span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">register_provoke_qml_types</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">..</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>register_provoke_qml_types();
+</span></span></code></pre></div><p>This isn&rsquo;t exactly innovative, but there were lots of ways to go about solving this problem. It&rsquo;s a nice setup, and I can forget it&rsquo;s even there. It builds pretty much instantly (for now). I can even export more <code>extern &quot;C&quot;</code> functions as needed.</p>
 <h2 id="and-then-i-wrote-the-important-news-alert-that-you-just-finished-reading">And then I wrote the important news alert that you just finished reading</h2>
 <p>Here we are.</p>
 <p><img src="/provoke/sofar.png" alt="So Far"></p>
