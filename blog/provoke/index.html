@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;. - Kemble Software</title>
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.123.7">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Joshua Worth" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://kemble.net/css/main.min.9137ca8477a8d22fbcd9d3376b7fa9735989528d6e85d7718049f122ef24ce23.css" />
+
+    
+    <meta name="twitter:card" content="summary"/><meta name="twitter:title" content="Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;."/>
+<meta name="twitter:description" content="
+This was a fun project for a couple of days, but I will probably shelve it for now so I can continue what I was already working on before. Read on to follow along with my journey.
+Spoilers: I didn&rsquo;t get very far.
+"/>
+
+    <meta property="og:title" content="Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;." />
+<meta property="og:description" content="
+This was a fun project for a couple of days, but I will probably shelve it for now so I can continue what I was already working on before. Read on to follow along with my journey.
+Spoilers: I didn&rsquo;t get very far.
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kemble.net/blog/provoke/" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2025-12-16T03:02:00+10:00" />
+<meta property="article:modified_time" content="2025-12-16T03:02:00+10:00" /><meta property="og:site_name" content="Kemble Software" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://kemble.net/"><img class="app-header-avatar" src="/logo.jpg" alt="Kemble Software" />
+      <h1 class="app-title">Kemble Software</h1></a>
+      <p>Writing code, having fun.</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://www.youtube.com/KembleSoftware" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-youtube">
+  <title>youtube</title>
+  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+</svg></a>
+        
+          <a target="_blank" href="https://assetstore.unity.com/publishers/51306" rel="noreferrer noopener"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-unity">
+  <title>unity</title>
+  <path d="M 2.3702604,11.315994 7.870624,5.9838051 10.069076,6.0372842 11.143053,4.1367827 18.547882,2.15194 20.594117,9.4071106 19.503221,11.369919 20.6259,13.27383 18.615709,20.433712 11.139792,18.499085 10.111173,16.535295 7.6819095,16.521945 Z" /><path d="M 13.180225,11.272573 18.522694,2.1557711" />><path d="m 13.152984,11.299668 5.454228,9.116627" />><path d="M 13.251745,11.307495 2.3718623,11.340881" />>
+</svg></a>
+        
+      </div>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title"><img src="/ProvokeIcon.png"></img>Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;.
+      </h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Dec 16, 2025
+        </div></div>
+    </header>
+    <div class="post-content">
+      <blockquote>
+<p>This was a fun project for a couple of days, but I will probably shelve it for now so I can continue what I was already working on before. Read on to follow along with my journey.</p>
+<p><b>Spoilers:</b> I didn&rsquo;t get very far.</p>
+</blockquote>
+<p>Get ready for an Opinion Dump of an intro:</p>
+<p>I have fond memories from 10 years ago of using Qt, and especially QML. It&rsquo;s just so easy to think of a design and make it happen with QML. I chose to use Svelte for building Web Apps™ while it was still very beta just because it was the closest experience to QML I came across.</p>
+<p>Rust is pretty great. Also been a huge fan of that since like 2012 when I saw an example on the front page where the compiler validated pointer usage at compile time without adding any extra work at run time. Basically black magic after trying to fix the worst kind of bugs in C++.</p>
+<p>I became a full time Full Stack Web Developer against all my intentions. I like making user interfaces and solving hard problems though, so it&rsquo;s not so bad. I have been wanting to make a properly &ldquo;native&rdquo; application for a while though.</p>
+<p>I wonder if anyone out there is a full time Full Stack Film Developer (that sounded funnier in my head).</p>
+<p>I like <a href="https://telegram.org/">Telegram</a> a lot, because I believe they have put the most love into their user interfaces out of all the chat programs I have seen. Also &ldquo;Saved Messages&rdquo; and being able to access all my messages from the last 10 years is pretty great. I also think Telegram is kinda lame in every other respect. I started trying out Element (a Matrix client) last week. The Android app is very decent these days, but the desktop app while clearly quite nice just doesn&rsquo;t spark joy like Telegram&rsquo;s desktop app. I played around with a bunch of other Matrix desktop clients just to see if the experience would be closer to Telegram, I could write a pros and cons list but that&rsquo;s not why we&rsquo;re here.</p>
+<p>The &ldquo;<a href="https://play.google.com/store/apps/details?id=io.element.android.x&amp;hl=en-US">Element X</a>&rdquo; app (the <strong>X</strong> is for Xtreme, I guess) uses a Rust library called <a href="https://github.com/matrix-org/matrix-rust-sdk"><code>matrix-rust-sdk</code></a>, which apparently solves many of the problems you might face while making a Matrix client. That might be useful later on.</p>
+<p>Anyway, here&rsquo;s a random project I started working on just because I felt like it would be fun to use QML again while trying to generally use Rust instead of C++.</p>
+<p style="font-size:130%;"><b>Goal:</b> Create a Telegram clone, whatever you already read the title.</p>
+<h2 id="day-one-hour-zero">Day One, Hour Zero</h2>
+<p>I&rsquo;ve wanted to try using QML as the UI for a Rust app for a while, so that&rsquo;s the driving force here. I&rsquo;ve looked at some stuff in the past, but first I want to properly learn about what&rsquo;s available.</p>
+<ul>
+<li><a href="https://github.com/woboq/qmetaobject-rs">qmetaobject-rs</a></li>
+<li><a href="https://github.com/KDAB/cxx-qt">cxx-qt</a></li>
+<li>Some other stuff that seems less good to build an app on top of, sorry everyone.</li>
+</ul>
+<p>In hindsight I know I wanted:</p>
+<ul>
+<li><code>cargo run</code> to be decently fast, both clean and incremental</li>
+<li>Hot reloading</li>
+<li>Ability to access all functionality of Qt if I wanted</li>
+</ul>
+<p>I started with cxx-qt because it seemed like the most official way to do Qt development, and definitely lets you access all Qt functionality. I made a super bare bones &ldquo;open a window&rdquo; program which got me excited, and I committed it to a git repo and everything. I may have spent like 30 minutes at this point coming up with a name for it.</p>
+<p style="font-size: 200%; text-align: center; background: #975845; margin-left: auto; margin-right: auto; width: fit-content; padding: 10px; border-radius: 20px; box-shadow: 0 0 30px #c9410c; margin-top: 50px; margin-bottom: 50px; font-style: italic;">Provoke</p>
+<p>I don&rsquo;t mind it. It&rsquo;s in italics so it must be fancy.</p>
+<p>I then spent hours trying to find ways to make cxx-qt not do some really expensive code generation and recompilation step every time I saved, then found out that VS Code was running <code>cargo check</code> one way while in the terminal <code>cargo check</code> was doing some other thing, and effectively blowing the cache every time I switched from one to the other.</p>
+<p>Anyway it all made me a bit sad and I just wanted to write some delicious QML for goodness sake, so I moved on to qmetaobject-rs knowing that it can&rsquo;t just access literally any Qt type I like, but maybe it will let me write some QML sooner, and not have an upsetting building experience?</p>
+<p>Basically, yes, I got some QML running like immediately, and the builds are super fast.</p>
+<p>But not fast enough, I want some kind of hot reloading. I&rsquo;m not putting up with this after using Svelte for years.</p>
+<p>Actual good hot reloading is not very trivial to implement, but I don&rsquo;t need it to be actually good. After a couple of failed attempts due to restrictions with qmetaobject-rs&rsquo;s design (I do actually recommend qmetaobject-rs btw, it&rsquo;s good), I ended up hacking together a thing that registers a &ldquo;HotReload&rdquo; object with QML, which internally keeps a &ldquo;should hot reload?&rdquo; <code>Arc&lt;AtomicBool&gt;</code>. When a QML file modification is detected, another &ldquo;anything changed?&rdquo; bool is set to true, then when the window gains focus and it sees that something has been modified, it sets that bool to true then literally quits the app.</p>
+<p>I then have a loop that checks if hot reloading has been requested and boots up the event loop again and loads the new QML files. To answer your question from two sentences ago, I originally immediately rebooted the app when a file changed, but that closed the window and opened the window again over the top of Vee Ess Cohde, and I press Ctrl+S a lot. I then added a button to the window that I needed to click to make the reload happen, but the file-modification-then-window-focus trigger is much, much better.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-rust" data-lang="rust"><span style="display:flex;"><span><span style="color:#75715e">// Watch the files:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> (tx, rx) <span style="color:#f92672">=</span> std::sync::mpsc::channel();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> watcher <span style="color:#f92672">=</span> notify::recommended_watcher(tx).unwrap();
+</span></span><span style="display:flex;"><span>watcher.configure(notify::Config::default().with_compare_contents(<span style="color:#66d9ef">true</span>)).unwrap();
+</span></span><span style="display:flex;"><span>watcher.watch(Path::new(qml_folder), notify::RecursiveMode::Recursive).unwrap();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">let</span> thread_dirty_state <span style="color:#f92672">=</span> dirty_state.clone();
+</span></span><span style="display:flex;"><span>std::thread::spawn(<span style="color:#66d9ef">move</span> <span style="color:#f92672">||</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> <span style="color:#66d9ef">let</span> Ok(change) <span style="color:#f92672">=</span> rx.recv() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> Ok(change) <span style="color:#f92672">=</span> change {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> <span style="color:#66d9ef">let</span> notify::EventKind::Modify(modification) <span style="color:#f92672">=</span> change.kind {
+</span></span><span style="display:flex;"><span>				thread_dirty_state.store(<span style="color:#66d9ef">true</span>, std::sync::atomic::Ordering::SeqCst);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// The event loop, loop:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">loop</span> {
+</span></span><span style="display:flex;"><span>	hot_reload_state.store(<span style="color:#66d9ef">false</span>, std::sync::atomic::Ordering::SeqCst);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">let</span> <span style="color:#66d9ef">mut</span> engine <span style="color:#f92672">=</span> QmlEngine::new();
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;------&#34;</span>);
+</span></span><span style="display:flex;"><span>	println!(<span style="color:#e6db74">&#34;RELOAD&#34;</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	engine.set_property(<span style="color:#e6db74">&#34;HotReload&#34;</span>.into(), hot_reload.pinned().into());
+</span></span><span style="display:flex;"><span>	engine.load_file(format!(<span style="color:#e6db74">&#34;</span><span style="color:#e6db74">{qml_folder}</span><span style="color:#e6db74">main.qml&#34;</span>).into());
+</span></span><span style="display:flex;"><span>	engine.exec();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> <span style="color:#f92672">!</span>hot_reload_state.load(std::sync::atomic::Ordering::SeqCst) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Implementation of the HotReload object that gets registered with QML.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">impl</span> HotReload {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">reload_if_dirty</span>(<span style="color:#f92672">&amp;</span>self) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> self.dirty_state.load(std::sync::atomic::Ordering::SeqCst) {
+</span></span><span style="display:flex;"><span>			self.reload();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">fn</span> <span style="color:#a6e22e">reload</span>(<span style="color:#f92672">&amp;</span>self) {
+</span></span><span style="display:flex;"><span>		self.dirty_state.store(<span style="color:#66d9ef">false</span>, std::sync::atomic::Ordering::SeqCst);
+</span></span><span style="display:flex;"><span>		self.reload_state.store(<span style="color:#66d9ef">true</span>, std::sync::atomic::Ordering::SeqCst);
+</span></span><span style="display:flex;"><span>		QCoreApplication::quit();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#75715e">// Then from QML, the main window does this:
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">onActiveChanged</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#a6e22e">HotReload</span>.<span style="color:#a6e22e">reload_if_dirty</span>()
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>I can&rsquo;t say it&rsquo;s amazing, but it was easy to implement and it gets the job done.</p>
+<p>QML has a Language Server now which is awesome, but I couldn&rsquo;t figure out how to get it working so I just opened up <a href="https://www.qt.io/development/tools/qt-creator-ide">Qt Creator</a> and edited QML there (Qt Creator is actually very good, perhaps unexpectedly so for those who haven&rsquo;t used it). I then did something later on which made the language server work so I could just use VS Code to edit it with all my lovely custom configs and keyboard shortcuts. I&rsquo;m still not sure what I did to make it work. Might look into that later.</p>
+<p>Well that was fun, moving on&hellip;</p>
+<h2 id="hour-five">Hour Five</h2>
+<p>The great Telegram Ripping-Off begins.</p>
+<p>Let&rsquo;s start with the splitter that goes between the chat list sidebar and the actual chat. The sidebar has a 65px &ldquo;collapsed&rdquo; mode where it only shows icons of the chats, but the &ldquo;normal&rdquo; minimum is 260px. The right of the split can be min 380px. The provided splitter widget didn&rsquo;t have enough features, so I just made my own one. That&rsquo;s the great thing about a good UI language, you can just make your own one of a thing and it will be fun and not sad (just keep accessibility in mind even if you don&rsquo;t implement it during the prototyping stage).</p>
+<p>Here it is!</p>
+<video width="100%" controls style="aspect-ratio: 1280/959;">
+	<source src="/provoke/splitter.webm" type="video/webm">
+	If you're seeing this sentence, there's a bunch of videos on this page and it will look kinda boring without them.
+</video>
+<p>Note how the mouse cursor doesn&rsquo;t stay as ↔ when it&rsquo;s not exactly on the splitter. The [built-in QML splitter](<a href="https://doc.qt.io/QT-6/qml-qtquick-controls">https://doc.qt.io/QT-6/qml-qtquick-controls</a> style=&ldquo;aspect-ratio: 1280/959;&quot;-splitview.html) had that problem 15 years ago, and it&rsquo;s still like that now :(</p>
+<p>If I could access <code>QGuiApplication::setOverrideCursor</code> I could make my splitter not have that problem, but as it stands, with my simple qmetaobject-rs project and 0% C++, I just can&rsquo;t. Oh well, I&rsquo;ll look into it later.</p>
+<p>It&rsquo;s a little bit buggy and the mouse doesn&rsquo;t always line up with the splitter.</p>
+<h2 id="3am-same-day">3am, same day</h2>
+<p>I got a bit carried away. My commit messages since the last section were: <code>Various UI work</code>, <code>More UI stuff</code>, <code>Sidebar collapsing is much more advanced</code>, and <code>More UI work</code>. Highly descriptive. I basically re-learned a tonne of stuff about QML, including how to make nice animations, and was honestly quite pleased with myself with how close I got some of the interactions to Telegram. There will be a lot more of that coming up.</p>
+<p>Just watch the following motion picture!</p>
+<video width="100%" controls style="aspect-ratio: 1280/959;">
+	<source src="/provoke/moreuiwork.webm" type="video/webm">
+</video>
+<p>I even created my own implementation of that Material Design growing-circle-inside-of-another-circular-mask thingo. I spent too long on this because I found what I wanted: <a href="https://doc.qt.io/qt-6/qml-qt5compat-graphicaleffects-opacitymask.html">OpacityMask</a>, but realised it&rsquo;s in the <code>Qt5Compat.GraphicalEffects</code> package because it&rsquo;s basically deprecated. I then spent ages trying to figure out how to use MultiEffect to do the same thing and found that its mask feature seems to treat alpha as a boolean (could be wrong here, I just couldn&rsquo;t make it work), then I went down the next rabbit hole of writing a custom shader effect, then because that was obnoxiously difficult to get <a href="https://doc.qt.io/qt-6/qml-qtquick-shadereffect.html">ShaderEffect</a> working, I just went back to using <code>OpacityMask</code>. Problem solved I guess.</p>
+<h2 id="next-day-or-same-day-depending-on-how-you-think-about-it">Next Day, or Same Day, Depending On How You Think About It</h2>
+<p><img src="/provoke/chatbubble.png" alt="Chat Bubble"></p>
+<p>I made a chat bubble. That little tail thing in the bottom right was fun. It&rsquo;s in the bottom left if someone else sent the message, how thoughtful. I used Inkscape to make a little thingy like this:</p>
+<p><img src="/provoke/littlethingy.png" alt="Little Thingy"></p>
+<p>Then copy-pasted the path into a PathSvg item in QML:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#a6e22e">path</span><span style="color:#f92672">:</span> (<span style="color:#a6e22e">root</span>.<span style="color:#a6e22e">other</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">?</span> <span style="color:#e6db74">&#34;m 40,-8 c 4.418278,0 8,3.581722 8,8 v 16 c 0,4.418278 -3.581722,8 -8,8 H 0 C 8.836556,24 16,16.836556 16,8 V 0 c 0,-4.418278 3.581722,-8 8,-8 z&#34;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;M 8,-8 C 3.581722,-8 0,-4.418278 0,0 v 16 c 0,4.418278 3.581722,8 8,8 H 48 C 39.163444,24 32,16.836556 32,8 V 0 c 0,-4.418278 -3.581722,-8 -8,-8 z&#34;</span>
+</span></span><span style="display:flex;"><span>)
+</span></span></code></pre></div><p>But who cares about that when Telegram has this very cool, swoonworthy emoji-reaction popup!</p>
+<video width="100%" controls style="aspect-ratio: 540/540;">
+	<source src="/provoke/telegramreactionpopup.webm" type="video/webm">
+</video>
+<p>That&rsquo;s Telegram, not my work. Wait, so it has one row of 7 emojis, but then you click the expand button and that row becomes the first row of emojis in a scroll view, following a search box that appears above, also inside the scroll view. Also, the expand button fades away, revealing that the row had 8 emojis the whole time?!?!? What snazziness to live up to. Let me have a go:</p>
+<video width="100%" controls style="aspect-ratio: 652/260;">
+	<source src="/provoke/myreactionpopup.webm" type="video/webm">
+</video>
+<p>Wait, did that emoji reaction popup just go <em>outside</em> the window? Be still my beating heart.</p>
+<p>So that&rsquo;s cool. What else is there?</p>
+<video width="100%" controls style="aspect-ratio: 940/654;">
+	<source src="/provoke/messageselection.webm" type="video/webm">
+</video>
+<p>Message selection, what a rush!</p>
+<video width="100%" controls style="aspect-ratio: 2240/1400;">
+	<source src="/provoke/systemtray.webm" type="video/webm">
+</video>
+<p>Just in case you didn&rsquo;t notice, Spectacle is Recording.</p>
+<p>&ldquo;I am glad I downloaded 1.6mb to watch that just then. Why is he expanding and collapsing the side bar again again and again? I thought he already did that in a previous video?&rdquo;</p>
+<p>Look closer!</p>
+<video width="100%" controls style="aspect-ratio: 36/44; max-width: 300px">
+	<source src="/provoke/systemtraycount.webm" type="video/webm">
+</video>
+<p>This was surprisingly hard to record &lsquo;cause I drew a rectangle around the system tray icon then when I clicked record, the &ldquo;stop recording&rdquo; system tray icon appeared and pushed my icon out of view :(</p>
+<p>Here&rsquo;s my first attempt:</p>
+<video width="100%" controls style="aspect-ratio: 36/44; max-width: 300px">
+	<source src="/provoke/systemtraycountfail.webm" type="video/webm">
+</video>
+<p>Captivating.</p>
+<p>At first I was going to use a Rust library to implement the tray icon, then I remembered that Qt actually comes with that functionality. My main concern was the possibility of making the number appear in the icon without it being a huge pain. I was thinking I would have to get some C++ action going to make this work, then after much too long, I realised that <code>QSystemTrayIcon</code> is actually in the QWidgets library so I&rsquo;d have to pull all that in just to get it working! Then a lightbulb appeared. What if QML has its own version? The answer to that is yes, it&rsquo;s called <code>SystemTrayIcon</code>, but it&rsquo;s under <code>Qt.labs.platform</code> which means it&rsquo;s experimental. Good thing I don&rsquo;t care about that.</p>
+<p>So the trick was to get the number on the icon, like I mentioned before. The <code>icon.source</code> property of <code>SystemTrayIcon</code> takes a URL to an icon. That&rsquo;s awkward. What am I to do? Create some kind of virtual file system that I can upload new icon pictures to that have the number overlay? Create 100 icons for all the possible counts? Is there some kind of built-in way to get a URL to a custom picture in Qt? That would be pretty fancy.</p>
+<p>Turns out Qt is pretty fancy.</p>
+<p>It&rsquo;s actually pretty sweet. Basically what you do is create a normal UI with QML:</p>
+<pre tabindex="0"><code>Image {
+	id: trayImageItem
+	source: &#34;qrc:/icons/icon_margin.svg&#34;
+	width: 64
+	height: 64
+
+	Rectangle {
+		anchors.right: parent.right
+		anchors.rightMargin: 1
+		anchors.bottom: parent.bottom
+		anchors.bottomMargin: 1
+		width: messageCountText.implicitWidth + 6
+		height: messageCountText.implicitHeight
+		color: &#34;#f23c34&#34;
+		radius: 16
+		visible: root.messageCount &gt; 0
+
+		Text {
+			id: messageCountText
+			x: 3
+			text: root.messageCount &gt; 99 ? &#34;＋&#34; : root.messageCount
+			color: &#34;white&#34;
+			opacity: 0.9
+			font.pixelSize: 30
+			font.weight: Font.Bold
+		}
+	}
+}
+</code></pre><p>Then create a <code>ShaderEffectSource</code>, which captures a new image of the <code>trayImageItem</code> whenever it changes:</p>
+<pre tabindex="0"><code>ShaderEffectSource {
+	id: trayImageSource
+	anchors.fill: trayImageItem
+	sourceItem: trayImageItem
+	visible: false
+	live: true
+	hideSource: true
+}
+</code></pre><p>Then whenever the message count changes, I call <code>updateTrayIcon()</code>:</p>
+<pre tabindex="0"><code>function updateTrayIcon() {
+	trayImageSource.grabToImage(result =&gt; {
+		trayIcon.icon.source = result.url
+	})
+}
+</code></pre><p><code>result.url</code> looks something like <code>itemgrabber:#1</code>, so basically Qt implements exactly that crazy idea I described above. Neat.</p>
+<p>The system tray task convinced me to finally an icon:</p>
+<p><img src="/ProvokeIcon.png" alt="Provoke Icon"></p>
+<p>I didn&rsquo;t want a speech bubble, it&rsquo;s already been done, and I wouldn&rsquo;t want this app to be mistaken for any app that&rsquo;s already on the market. I was thinking of a horn or something, but it needed to kinda fill the space so I went for a megaphone look. It also kinda looks like an axe, which goes well with the name Provoke I guess.</p>
+<h2 id="alright-time-for-some-c">Alright, time for some C++</h2>
+<p>I haven&rsquo;t written any C++ in years. It still lives on in my brain though, in the &ldquo;things that are extremely complicated and over-engineered, but actually kind of awesome&rdquo; section.</p>
+<p>I do not want to make my build much more complicated to make this work, or add more complexity than it deserves. I just want to be able to access some stuff in Qt that isn&rsquo;t exposed to Rust or QML yet, without it being a pain to work with.</p>
+<p>After some research I decided the best way to go about that would be to just use Qt properly the way it was intended, but keep it slim. Following was much experimentation then a chosen solution:</p>
+<ul>
+<li>Make a folder called &ldquo;cpp&rdquo;</li>
+<li>Put a CMakeLists.txt file in it, and a cpp/hpp pair</li>
+</ul>
+<pre tabindex="0"><code>cmake_minimum_required(VERSION 3.16)
+
+project(provokecpp LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt6 COMPONENTS Core Gui Qml REQUIRED)
+
+qt_add_library(provokecpp STATIC
+	provokecpp.cpp
+	provokecpp.hpp
+)
+
+target_link_libraries(provokecpp
+	Qt6::Core
+	Qt6::Gui
+	Qt6::Qml
+)
+</code></pre><ul>
+<li>Write some QObjects the old-fashioned way, then <code>extern &quot;C&quot;</code> a function which registers stuff with QML.</li>
+</ul>
+<pre tabindex="0"><code>QObject* provoke_tools_singleton_provider(QQmlEngine* engine, QJSEngine* jsEngine) {
+	return new ProvokeTools();
+}
+
+extern &#34;C&#34; void register_provoke_qml_types() {
+	qmlRegisterSingletonType&lt;ProvokeTools&gt;(&#34;provoke&#34;, 1, 0, &#34;ProvokeTools&#34;, provoke_tools_singleton_provider);
+	// This sounds like it would solve that problem that I had with my Splitter!
+	qmlRegisterType&lt;OverrideMouseCursor&gt;(&#34;provoke&#34;, 1, 0, &#34;OverrideMouseCursor&#34;);
+}
+</code></pre><ul>
+<li>&ldquo;You keep talking about Rust, but mostly you&rsquo;ve just written QML and C++, I feel ripped off&rdquo; - Fair enough, but I intend to use Rust for the &ldquo;model&rdquo; layer and any custom UI elements and logic that call for native code. That stuff just hasn&rsquo;t really come up yet.</li>
+<li>Add a <code>build.rs</code> file and use the <code>cmake</code> crate to build the &ldquo;cpp&rdquo; folder. I find this part quite cool, as you don&rsquo;t even see it running the C++ compiler when you do <code>cargo run</code> and all the build stuff happens in the <code>target</code> folder with everything else. It even caches the result and only re-runs the C++ build if a dependency changes:</li>
+</ul>
+<pre tabindex="0"><code>fn main() {
+	let dest = cmake::Config::new(&#34;cpp&#34;)
+		.build_target(&#34;all&#34;)
+		.build();
+
+	println!(&#34;cargo::rerun-if-changed=cpp/CMakeLists.txt&#34;);
+	println!(&#34;cargo::rerun-if-changed=cpp/provokecpp.cpp&#34;);
+	println!(&#34;cargo::rerun-if-changed=cpp/provokecpp.hpp&#34;);
+	
+	println!(&#34;cargo::rustc-link-search=native={}/build&#34;, dest.display());
+	println!(&#34;cargo::rustc-link-lib=static=provokecpp&#34;);
+}
+</code></pre><ul>
+<li>From Rust, import the symbol and call it on startup:</li>
+</ul>
+<pre tabindex="0"><code>unsafe extern &#34;C&#34; {
+	unsafe fn register_provoke_qml_types();
+}
+
+...
+
+register_provoke_qml_types();
+</code></pre><p>This isn&rsquo;t exactly innovative, but there were lots of ways to go about solving this problem. It&rsquo;s a nice setup, and I can forget it&rsquo;s even there. It builds pretty much instantly (for now). I can even export more <code>extern &quot;C&quot;</code> functions as needed.</p>
+<h2 id="and-then-i-wrote-the-important-news-alert-that-you-just-finished-reading">And then I wrote the important news alert that you just finished reading</h2>
+<p>Here we are.</p>
+<p><img src="/provoke/sofar.png" alt="So Far"></p>
+<p>I Can&rsquo;t Believe It&rsquo;s Not Telegram.</p>
+<p>I keep mistaking it for the real Telegram so I think the illusion is working.</p>
+<p><a href="https://github.com/yokljo/provoke">Here&rsquo;s the repo</a></p>
+<p><img src="/provoke/languages.png" alt="Languages"></p>
+<p>Other is my favourite language, I&rsquo;m surprised I didn&rsquo;t use it more.</p>
+<p>Will he keep working on it? Will it grow to become the worlds most popular messenger app due to its superior user experience? Will he even keep working on it after this? Will he go back to working on that game engine? Or that sewing pattern CAD idea? Will there ever be another blog post on this website?</p>
+<p>Find out on the next episode of App Dev By That Guy!</p>
+    </div>
+    <div class="post-footer">
+      
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

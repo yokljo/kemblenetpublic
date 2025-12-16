@@ -6,45 +6,42 @@
     <description>Recent content in Blog on Kemble Software</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Nov 2021 01:09:48 +1000</lastBuildDate><atom:link href="https://kemble.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 16 Dec 2025 03:02:00 +1000</lastBuildDate>
+    <atom:link href="https://kemble.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Writing a blatant Telegram clone using Qt, QML and Rust. And C&#43;&#43;.</title>
+      <link>https://kemble.net/blog/provoke/</link>
+      <pubDate>Tue, 16 Dec 2025 03:02:00 +1000</pubDate>
+      <guid>https://kemble.net/blog/provoke/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;This was a fun project for a couple of days, but I will probably shelve it for now so I can continue what I was already working on before. Read on to follow along with my journey.&lt;/p&gt;&#xA;&lt;p&gt;&lt;b&gt;Spoilers:&lt;/b&gt; I didn&amp;rsquo;t get very far.&lt;/p&gt;&#xA;&lt;/blockquote&gt;</description>
+    </item>
     <item>
       <title>Lavish Polygon Editor</title>
       <link>https://kemble.net/blog/lavishpolygoneditor/</link>
       <pubDate>Thu, 04 Nov 2021 01:09:48 +1000</pubDate>
-      
       <guid>https://kemble.net/blog/lavishpolygoneditor/</guid>
-      <description>&lt;p&gt;Lavish Polygon Editor is a set of tools for Polygon Collider 2D that override the default tools to bring you much more flexible and advanced ways to edit your collider polygons.​&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/physics/lavish-polygon-collider-2d-editor-203127&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Lavish Polygon Editor is a set of tools for Polygon Collider 2D that override the default tools to bring you much more flexible and advanced ways to edit your collider polygons.​&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/physics/lavish-polygon-collider-2d-editor-203127&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Tool For U</title>
       <link>https://kemble.net/blog/toolforu/</link>
       <pubDate>Mon, 06 Sep 2021 01:51:48 +1000</pubDate>
-      
       <guid>https://kemble.net/blog/toolforu/</guid>
-      <description>&lt;p&gt;Tool For U is an extension for the Unity editor that binds the U key (or any other key you desire) to rapidly switch between custom tools relevant to the current selection using either a pie menu or a list-style menu.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/utilities/rapid-editor-tool-switcher-tool-for-u-199680&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Tool For U is an extension for the Unity editor that binds the U key (or any other key you desire) to rapidly switch between custom tools relevant to the current selection using either a pie menu or a list-style menu.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/utilities/rapid-editor-tool-switcher-tool-for-u-199680&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Warp Grid</title>
       <link>https://kemble.net/blog/warpgrid/</link>
       <pubDate>Tue, 10 Aug 2021 10:11:49 +1000</pubDate>
-      
       <guid>https://kemble.net/blog/warpgrid/</guid>
-      <description>&lt;p&gt;Warp Grid - A component for warping, cropping and re-colouring sprites directly in the Unity editor.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/sprite-management/warp-grid-198797&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;Warp Grid - A component for warping, cropping and re-colouring sprites directly in the Unity editor.&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;&lt;a href=&#34;https://assetstore.unity.com/packages/tools/sprite-management/warp-grid-198797&#34;&gt;Get it here&lt;/a&gt;&lt;/strong&gt;&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Hello</title>
       <link>https://kemble.net/blog/hello/</link>
       <pubDate>Wed, 05 Aug 2020 00:21:04 +0200</pubDate>
-      
       <guid>https://kemble.net/blog/hello/</guid>
       <description>Welcome to Kemble Software. Please check me out on Twitter and YouTube!</description>
     </item>
-    
   </channel>
 </rss>
