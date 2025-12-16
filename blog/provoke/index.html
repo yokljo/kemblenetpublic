@@ -242,7 +242,7 @@ Spoilers: I didn&rsquo;t get very far.
 		}
 	}
 }
-</code></pre><p>Then create a <code>ShaderEffectSource</code>, which captures a new image of the <code>trayImageItem</code> whenever it changes:</p>
+</code></pre><p>Then create a <code>ShaderEffectSource</code>, which captures a new image of the <code>trayImageItem</code> whenever it changes (even if it is invisible, which is very important in this situation):</p>
 <pre tabindex="0"><code>ShaderEffectSource {
 	id: trayImageSource
 	anchors.fill: trayImageItem
@@ -258,7 +258,7 @@ Spoilers: I didn&rsquo;t get very far.
 	})
 }
 </code></pre><p><code>result.url</code> looks something like <code>itemgrabber:#1</code>, so basically Qt implements exactly that crazy idea I described above. Neat.</p>
-<p>The system tray task convinced me to finally an icon:</p>
+<p>The system tray task convinced me to finally make an icon:</p>
 <p><img src="/ProvokeIcon.png" alt="Provoke Icon"></p>
 <p>I didn&rsquo;t want a speech bubble, it&rsquo;s already been done, and I wouldn&rsquo;t want this app to be mistaken for any app that&rsquo;s already on the market. I was thinking of a horn or something, but it needed to kinda fill the space so I went for a megaphone look. It also kinda looks like an axe, which goes well with the name Provoke I guess.</p>
 <h2 id="alright-time-for-some-c">Alright, time for some C++</h2>
@@ -341,6 +341,7 @@ register_provoke_qml_types();
 <p>Find out on the next episode of App Dev By That Guy!</p>
 <div class="author">
 	<author>Joshua Worth</author>
+	<div>joshua@[takeaguess].net</div>
 	<div>Writer of code, sayer of words relating to said code</div>
 </div>
     </div>
